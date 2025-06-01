@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Active Learning vs Bayesian Optimisation - Ali Parsaee</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-color: #333;
+      --light-text: #666;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--secondary-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--card-bg);
+      box-shadow: var(--box-shadow);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after, 
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-links a.active {
+      color: var(--primary-color);
+    }
+
+    /* Blog Post Styles */
+    .blog-post-content {
+      padding-top: 120px;
+      padding-bottom: 50px;
+    }
+
+    .post-header {
+      margin-bottom: 40px;
+    }
+
+    .post-title {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      color: var(--light-text);
+    }
+
+    .post-meta i {
+      margin-right: 5px;
+    }
+
+    .post-meta span {
+      margin-right: 15px;
+    }
+
+    .post-image {
+      width: 100%;
+      border-radius: var(--border-radius);
+      margin-bottom: 30px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .blog-content {
+      background-color: var(--card-bg);
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 30px;
+    }
+
+    .blog-content h2 {
+      color: var(--primary-color);
+      margin: 30px 0 15px;
+      font-size: 1.8rem;
+    }
+
+    .blog-content h3 {
+      color: var(--secondary-color);
+      margin: 25px 0 15px;
+      font-size: 1.4rem;
+    }
+
+    .blog-content p {
+      margin-bottom: 20px;
+    }
+
+    .blog-content ul, 
+    .blog-content ol {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    .blog-content li {
+      margin-bottom: 10px;
+    }
+
+    .blog-content blockquote {
+      border-left: 4px solid var(--accent-color);
+      padding-left: 20px;
+      margin: 20px 0;
+      font-style: italic;
+      color: var(--light-text);
+    }
+
+    .blog-content pre {
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+
+    .blog-content code {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+
+    .post-tags {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .post-tag {
+      background-color: #e2e8f0;
+      color: var(--text-color);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .post-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-button:hover {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    .nav-button i {
+      margin-right: 8px;
+    }
+
+    .nav-button.next i {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--card-bg);
+      padding: 40px 0;
+      text-align: center;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .post-title {
+        font-size: 2rem;
+      }
+
+      .blog-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Ali Parsaee</div>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#experience">Experience</a></li>
+          <li><a href="index.html#papers">Papers</a></li>
+          <li><a href="index.html#projects">Projects</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Blog Post Content -->
+  <main class="blog-post-content">
+    <div class="container">
+      <article>
+        <div class="post-header">
+          <h1 class="post-title">Active Learning vs Bayesian Optimisation</h1>
+          <div class="post-meta">
+            <span><i class="far fa-calendar-alt"></i> January 15, 2023</span>
+            <span><i class="far fa-folder"></i> Machine Learning</span>
+            <span><i class="far fa-clock"></i> 10 min read</span>
+          </div>
+          <div class="post-tags">
+            <span class="post-tag">Active Learning</span>
+            <span class="post-tag">Bayesian Optimization</span>
+            <span class="post-tag">Machine Learning</span>
+          </div>
+        </div>
+
+        <div class="blog-content">
+          <p>
+            Active Learning and Bayesian Optimization are two powerful techniques used in machine learning for different but related purposes. 
+            While they share similarities in their approach to efficiently using resources, they are applied in different contexts and have 
+            distinct objectives. This blog post aims to provide a comprehensive comparison of these two methodologies.
+          </p>
+
+          <h2>Understanding Active Learning</h2>
+          <p>
+            Active Learning is a subfield of machine learning where an algorithm can interactively query an oracle (usually a human annotator) 
+            to label new data points. The key idea behind active learning is to minimize the labeling effort by selecting the most informative 
+            instances for labeling.
+          </p>
+          
+          <h3>Key Characteristics of Active Learning</h3>
+          <ul>
+            <li><strong>Query Selection:</strong> The algorithm selects which data points to label next based on certain criteria.</li>
+            <li><strong>Uncertainty Sampling:</strong> One common approach is to select instances about which the model is most uncertain.</li>
+            <li><strong>Diversity-Based Sampling:</strong> Another approach is to select a diverse set of instances to cover the feature space.</li>
+            <li><strong>Expected Model Change:</strong> Select instances that would cause the greatest change in the current model if labeled.</li>
+          </ul>
+
+          <p>
+            Active learning is particularly useful in scenarios where labeling data is expensive or time-consuming, such as in medical imaging, 
+            natural language processing, and sentiment analysis.
+          </p>
+
+          <h2>Understanding Bayesian Optimization</h2>
+          <p>
+            Bayesian Optimization is a sequential design strategy for global optimization of black-box functions that doesn't require derivatives. 
+            It's particularly effective for optimizing functions that are expensive to evaluate, such as hyperparameter tuning of machine learning models.
+          </p>
+
+          <h3>Key Characteristics of Bayesian Optimization</h3>
+          <ul>
+            <li><strong>Surrogate Model:</strong> A probabilistic model (often Gaussian Process) that approximates the objective function.</li>
+            <li><strong>Acquisition Function:</strong> A function that determines which points to evaluate next, balancing exploration and exploitation.</li>
+            <li><strong>Sequential Evaluation:</strong> Points are evaluated one at a time, with the surrogate model updated after each evaluation.</li>
+            <li><strong>Global Optimization:</strong> The goal is to find the global optimum of the objective function with minimal evaluations.</li>
+          </ul>
+
+          <p>
+            Bayesian Optimization is widely used for hyperparameter tuning, experimental design, and optimization of expensive-to-evaluate systems.
+          </p>
+
+          <h2>Key Differences</h2>
+          <p>
+            While both Active Learning and Bayesian Optimization seek to efficiently use resources, they differ in several important ways:
+          </p>
+
+          <ul>
+            <li><strong>Objective:</strong> Active Learning aims to build an accurate predictive model with minimal labeled data, while Bayesian Optimization aims to find the global optimum of a function with minimal evaluations.</li>
+            <li><strong>Application Context:</strong> Active Learning is used in supervised learning scenarios where labeling is expensive, while Bayesian Optimization is used for optimizing black-box functions where each evaluation is costly.</li>
+            <li><strong>Output:</strong> Active Learning produces a trained model, while Bayesian Optimization produces the optimal input parameters for a function.</li>
+          </ul>
+
+          <h2>When to Use Each Approach</h2>
+          <p>
+            <strong>Use Active Learning when:</strong>
+          </p>
+          <ul>
+            <li>You have a large pool of unlabeled data and limited resources for labeling.</li>
+            <li>The cost of labeling data is high (e.g., requiring expert annotation).</li>
+            <li>Your goal is to build an accurate predictive model with minimal labeled data.</li>
+          </ul>
+
+          <p>
+            <strong>Use Bayesian Optimization when:</strong>
+          </p>
+          <ul>
+            <li>You need to optimize hyperparameters of a machine learning model.</li>
+            <li>Each evaluation of your objective function is expensive or time-consuming.</li>
+            <li>The objective function is black-box (i.e., no gradient information is available).</li>
+            <li>The function has a reasonable number of parameters (typically less than 20).</li>
+          </ul>
+
+          <h2>Conclusion</h2>
+          <p>
+            Both Active Learning and Bayesian Optimization are powerful techniques that help make efficient use of limited resources in machine learning. 
+            By understanding their similarities, differences, and appropriate use cases, practitioners can select the right approach for their specific problems.
+          </p>
+          <p>
+            In some advanced scenarios, these techniques can even be combined, such as using Bayesian Optimization to tune the hyperparameters of an Active Learning strategy, 
+            leading to even more efficient learning systems.
+          </p>
+        </div>
+
+        <div class="post-navigation">
+          <a href="blog.html" class="nav-button prev"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+          <a href="#" class="nav-button next">Next Post <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2023 Ali Parsaee. All Rights Reserved.</p>
+        <div class="social-links">
+          <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://scholar.google.com/" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

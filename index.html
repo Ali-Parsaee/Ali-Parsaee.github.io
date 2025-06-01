@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ali Parsaee - Machine Learning Researcher</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-color: #333;
+      --light-text: #666;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    a:hover {
+      color: var(--secondary-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--card-bg);
+      box-shadow: var(--box-shadow);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-weight: 500;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary-color);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 600px;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--light-text);
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    /* Section Styles */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--primary-color);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 3px;
+      background-color: var(--accent-color);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* About Section */
+    .about-content {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    /* Experience Section */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      background-color: var(--accent-color);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1.5px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+      width: 45%;
+    }
+
+    .timeline-item:nth-child(odd) {
+      left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 55%;
+    }
+
+    .timeline-content {
+      padding: 20px;
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .timeline-date {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    /* Papers and Projects Sections */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .card-text {
+      color: var(--light-text);
+      margin-bottom: 15px;
+    }
+
+    .card-link {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .card-link:hover {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    /* Blog Section */
+    .blog-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .blog-item {
+      display: flex;
+      gap: 20px;
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px;
+      transition: var(--transition);
+    }
+
+    .blog-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content {
+      flex: 1;
+    }
+
+    .blog-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .blog-date {
+      font-size: 0.9rem;
+      color: var(--light-text);
+      margin-bottom: 10px;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+    }
+
+    .contact-info {
+      max-width: 400px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 15px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--card-bg);
+      padding: 40px 0;
+      text-align: center;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .about-content {
+        flex-direction: column;
+      }
+
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 0;
+      }
+
+      .contact-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Ali Parsaee</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#papers">Papers</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Ali Parsaee</h1>
+        <h2 class="hero-subtitle">Machine Learning Researcher</h2>
+        <p class="hero-description">
+          Passionate about developing innovative machine learning solutions with a focus on 
+          deep learning and AI. Exploring the boundaries of what's possible with data and algorithms.
+        </p>
+        <div class="social-links">
+          <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://scholar.google.com/" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            I am a Machine Learning Researcher with expertise in developing innovative AI solutions. 
+            My research focuses on deep learning applications, computer vision, and natural language processing.
+            I am passionate about pushing the boundaries of AI technology and applying it to solve real-world problems.
+          </p>
+          <p>
+            With a strong foundation in both theoretical concepts and practical implementation, 
+            I strive to bridge the gap between cutting-edge research and practical applications. 
+            I enjoy collaborating with diverse teams and continuously learning new techniques and frameworks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title">Work Experience</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2023 - Present</div>
+            <h3>Senior Machine Learning Researcher</h3>
+            <p>AI Research Lab</p>
+            <p>
+              Leading research initiatives in computer vision and natural language processing. 
+              Developing novel deep learning architectures and publishing research in top-tier conferences.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2020 - 2023</div>
+            <h3>Machine Learning Engineer</h3>
+            <p>Tech Company</p>
+            <p>
+              Designed and implemented machine learning models for product recommendations and user behavior analysis.
+              Improved model accuracy by 25% and reduced computational costs.
+            </p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2018 - 2020</div>
+            <h3>Research Assistant</h3>
+            <p>University Research Lab</p>
+            <p>
+              Conducted research on generative models and reinforcement learning.
+              Published 3 papers in international conferences and journals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Papers Section -->
+  <section id="papers">
+    <div class="container">
+      <h2 class="section-title">Research Papers</h2>
+      <div class="cards-container">
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Active Learning vs Bayesian Optimization: A Comparative Study</h3>
+            <p class="card-text">Published in Conference on Neural Information Processing Systems (NeurIPS), 2023</p>
+            <p>A comprehensive comparison of active learning and Bayesian optimization techniques for efficient data selection in machine learning models.</p>
+            <a href="#" class="card-link">Read Paper</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Improved Training of Generative Adversarial Networks</h3>
+            <p class="card-text">International Conference on Machine Learning (ICML), 2022</p>
+            <p>Novel techniques to stabilize GAN training and improve convergence through adaptive regularization.</p>
+            <a href="#" class="card-link">Read Paper</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Transformers for Time Series Forecasting</h3>
+            <p class="card-text">Journal of Machine Learning Research (JMLR), 2021</p>
+            <p>Adaptation of transformer architectures for multivariate time series forecasting with state-of-the-art results.</p>
+            <a href="#" class="card-link">Read Paper</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="cards-container">
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Deep Learning Framework for Medical Imaging</h3>
+            <p class="card-text">An end-to-end solution for medical image analysis using convolutional neural networks.</p>
+            <p>Technologies: PyTorch, TensorFlow, Python</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Natural Language Processing Toolkit</h3>
+            <p class="card-text">A library of tools for text processing, sentiment analysis, and language generation.</p>
+            <p>Technologies: BERT, GPT, Hugging Face, Python</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <h3 class="card-title">Reinforcement Learning Environment</h3>
+            <p class="card-text">Custom simulation environment for testing and benchmarking reinforcement learning algorithms.</p>
+            <p>Technologies: OpenAI Gym, PyTorch, Python</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog">
+    <div class="container">
+      <h2 class="section-title">Blog</h2>
+      <div class="blog-preview">
+        <div class="blog-item">
+          <div class="blog-content">
+            <h3 class="blog-title"><a href="blogpost1.html">Active Learning vs Bayesian Optimisation</a></h3>
+            <p class="blog-date">January 15, 2023</p>
+            <p>Exploring the key differences between active learning and Bayesian optimization methods, with practical examples and implementation details.</p>
+          </div>
+        </div>
+        <div class="blog-item">
+          <div class="blog-content">
+            <h3 class="blog-title"><a href="blog.html">Recent Advances in Transformer Models</a></h3>
+            <p class="blog-date">March 22, 2023</p>
+            <p>A comprehensive overview of the latest developments in transformer architectures and their applications in various domains.</p>
+          </div>
+        </div>
+        <div class="blog-item">
+          <div class="blog-content">
+            <h3 class="blog-title"><a href="blog.html">The Future of Reinforcement Learning</a></h3>
+            <p class="blog-date">June 10, 2023</p>
+            <p>Insights into the emerging trends and future directions of reinforcement learning research and applications.</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="blog.html" class="card-link">View All Posts</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact Me</h2>
+      <div class="contact-container">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h3>Email</h3>
+              <p><a href="mailto:apar7414@gmail.com">apar7414@gmail.com</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+              <h3>Location</h3>
+              <p>San Francisco, CA</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-linkedin-in"></i>
+            </div>
+            <div>
+              <h3>LinkedIn</h3>
+              <p><a href="https://linkedin.com/" target="_blank">linkedin.com/in/aliparsaee</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2023 Ali Parsaee. All Rights Reserved.</p>
+        <div class="social-links">
+          <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://scholar.google.com/" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
