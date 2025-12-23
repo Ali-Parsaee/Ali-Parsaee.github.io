@@ -44,7 +44,7 @@ To work on this website locally:
 
 ## Deployment
 
-The website is deployed using GitHub Pages and can be accessed at: https://yoguy12345.github.io/Personal_Website/
+The website is deployed using GitHub Pages and can be accessed at: [https://ali-parsaee.github.io/](https://ali-parsaee.github.io/)
 
 ## License
 
